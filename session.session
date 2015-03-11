@@ -1,0 +1,13 @@
+<NotepadPlus>
+    <Session activeView="0">
+        <mainView activeIndex="0">
+            <File firstVisibleLine="254" xOffset="0" scrollWidth="1376" startPos="13980" endPos="14049" selMode="0" lang="Python" encoding="-1" filename="C:\Users\ethan\Desktop\Programming\Other\Google App Engine\xpify\main.py" />
+        </mainView>
+        <subView activeIndex="3">
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="160" startPos="177" endPos="177" selMode="0" lang="Normal Text" encoding="-1" filename="C:\Users\ethan\Desktop\Programming\Other\Google App Engine\xpify\app.yaml" />
+            <File firstVisibleLine="76" xOffset="0" scrollWidth="568" startPos="1525" endPos="1525" selMode="0" lang="SCSS" encoding="-1" filename="C:\Users\ethan\Desktop\Programming\Other\Google App Engine\xpify\static\scss\styles0.scss" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="568" startPos="592" endPos="592" selMode="0" lang="SCSS" encoding="-1" filename="C:\Users\ethan\Desktop\Programming\Other\Google App Engine\xpify\static\scss\styles1.scss" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1" startPos="0" endPos="0" selMode="0" lang="SCSS" encoding="-1" filename="C:\Users\ethan\Desktop\Programming\Other\Google App Engine\xpify\static\scss\styles-global.scss" />
+        </subView>
+    </Session>
+</NotepadPlus>
