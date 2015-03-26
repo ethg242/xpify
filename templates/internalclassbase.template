@@ -1,0 +1,27 @@
+{% extends "internalbase.template" %}
+{# values:
+	- user: current user (user obj)
+	- class_: current class (class obj)
+#}
+{% set class = class_ %}
+{% set classid = class.classid %}
+{% block title %} - {{ class.classname }}{{ super() }} {% endblock %}
+{% block main %}
+<nav id="span-navbar">
+	<ul>
+		{% for label, href in [
+				('Challenges', '/class/challenges'),
+				('Leaderboards', '/class/leaderboards')
+				] %}
+			<li {% if currentpage==label %}id="current"{% endif %} >
+				<a href="{{ href ~ '?class={{ classid }}'}}">{{ label }}</a>
+			</li>
+		{% endfor %}
+		<li><div class="unimplemented">Coming Soon</div></li>
+		{% if user.usertype == "Teacher" %}
+			<li><a href="/class/manage/?class={{ classid }}">Manage</a></li>
+		{% endif %}
+	</ul>
+</nav>
+{{ super() }}
+{% endblock %}

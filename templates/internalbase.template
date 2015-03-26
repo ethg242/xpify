@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{# values:
+	- user: current user (user obj)
+#}
+<html>
+	<head>
+		<title>{% block title %} - XPify (DEV){% endblock %}</title>
+
+		<link rel="stylesheet" type="text/css" href="/static/css/theme/jquery-ui-1.10.4.custom.min.css" />
+		<link rel="stylesheet" type="text/css" href="/static/css/styles-global.css" />
+		<link rel="stylesheet" type="text/css" href="/static/css/styles-internal.css" />
+
+		<link rel="shortcut icon" href="/static/images/favicon.ico" />
+		<link rel="apple-touch-icon" sizes="57x57" href="/static/images/apple-touch-icon-57x57.png" />
+		<link rel="apple-touch-icon" sizes="114x114" href="/static/images/apple-touch-icon-114x114.png" />
+		<link rel="apple-touch-icon" sizes="72x72" href="/static/images/apple-touch-icon-72x72.png" />
+		<link rel="apple-touch-icon" sizes="144x144" href="/static/images/apple-touch-icon-144x144.png" />
+		<link rel="apple-touch-icon" sizes="60x60" href="/static/images/apple-touch-icon-60x60.png" />
+		<link rel="apple-touch-icon" sizes="120x120" href="/static/images/apple-touch-icon-120x120.png" />
+		<link rel="apple-touch-icon" sizes="76x76" href="/static/images/apple-touch-icon-76x76.png" />
+		<link rel="apple-touch-icon" sizes="152x152" href="/static/images/apple-touch-icon-152x152.png" />
+		<link rel="icon" type="image/png" href="/static/images/favicon-196x196.png" sizes="196x196" />
+		<link rel="icon" type="image/png" href="/static/images/favicon-160x160.png" sizes="160x160" />
+		<link rel="icon" type="image/png" href="/static/images/favicon-96x96.png" sizes="96x96" />
+		<link rel="icon" type="image/png" href="/static/images/favicon-16x16.png" sizes="16x16" />
+		<link rel="icon" type="image/png" href="/static/images/favicon-32x32.png" sizes="32x32" />
+		<meta name="msapplication-TileColor" content="#603cba" />
+		<meta name="msapplication-TileImage" content="/static/images/mstile-144x144.png" />
+		<meta name="msapplication-square70x70logo" content="/static/images/mstile-70x70.png" />
+		<meta name="msapplication-square144x144logo" content="/static/images/mstile-144x144.png" />
+		<meta name="msapplication-square150x150logo" content="/static/images/mstile-150x150.png" />
+		<meta name="msapplication-square310x310logo" content="/static/images/mstile-310x310.png" />
+		<meta name="msapplication-wide310x150logo" content="/static/images/mstile-310x150.png" />
+
+		<script type="text/javascript" src="/static/js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="/static/js/jquery-ui-1.10.4.custom.min.js"></script>
+		<script type="text/javascript" src="/static/js/portlets.js"></script>
+	</head>
+	<body>
+		<aside>
+			<div id="logo-wrapper"><img src="/static/images/favicon-96x96.png"
+					height="96" width="96" alt="[XPify]" /></div>
+			<nav id="vert-navbar">
+				<ul id="vert-navbar-main">
+					{% for label, href in [
+							('Home', '/my/home/'),
+							('Profile', '/profile/'),
+							('Log out', '/logout/')
+							] %}
+						<li {% if current==label %}id="current"{% endif %} >
+							<a href="{{ href }}">{{ label }}</a>
+						</li>
+					{% endfor %}
+				</ul>
+				<span id="vert-navbar-classes-header">Classes</span>
+				<ul id="vert-navbar-classes-list">
+					{% set classes = user.classes %}
+					{% if classes %}
+						{% for classKey in classes %}
+							{% set classGet = classKey.get() %}
+							<li {% if classid==classGet.classid %}id="current"{% endif %}>
+								<a href="{{ '/class/challenges?class=' ~ classGet.classid }}">{{ classGet.classname }}</a>
+							</li>
+						{% endfor %}
+						<li class="join-class-plus"><a href="/class/search/"><div>+</div></a></li>
+					{% else %}
+						<div id="no-classes">
+							<span id="no-classes-banner">You have no classes!</span>
+							{% if user.usertype == 'Student' %}
+								<li {% if current=="Class Search" %}id="current"{% endif %}>
+									<a href="/class/search/">Join one!</a>
+								</li>
+							{% else %}
+								<li {% if current=="Class Create" %}id="current"{% endif %}>
+									<a href="/class/create/">Create one!</a>
+								</li>
+							{% endif %}
+						</div>
+					{% endif %}
+				</ul>
+			</nav>
+		</aside>
+		<main>
+			{% block main %}
+			<div id="content">
+				{% block content %} {% endblock %}
+			</div>
+			{% endblock %}
+		</main>
+	</body>
+</html>

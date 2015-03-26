@@ -1,0 +1,29 @@
+{% extends "internalclassbase.template" %}
+{# values:
+	- user: current user (user obj)
+	- classid: current class id (string)
+#}
+{% set currentpage = "Challenges" %}
+{% block title %}Challenges{{ super() }}{% endblock %}
+{% block content %}
+	<div class="column">
+		<div class="portlet">
+			<div class="portlet-header">Header 1</div>
+			<div class="portlet-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et arcu congue, placerat
+			massa ut, vestibulum enim. Cras id tempus erat.</div>
+		</div>
+
+		<div class="portlet">
+			<div class="portlet-header">Header 3</div>
+			<div class="portlet-content">Sed fringilla, ipsum a congue tincidunt, odio purus lobortis lacus, mollis dictum turpis
+		nisi quis quam. Fusce in interdum diam. Mauris tempus dolor ut viverra pellentesque.</div>
+		</div>
+	</div>
+	<div class="column">
+		<div class="portlet">
+			<div class="portlet-header">Header 2</div>
+			<div class="portlet-content">Duis ac egestas nulla, egestas tincidunt enim. Nulla ultrices cursus ipsum vitae vehicula.
+		Donec ac libero bibendum, semper magna vitae, vestibulum tellus.</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "externalbase.template" %}
+{# values:
+	NONE
+#}
+{% block title %}User Creation -{{ super() }}{% endblock %}
+{% block content %}
+	<main>
+		<form id="user-form" action="/postlogin/" method="POST">
+			<span id="header-usertype">User Type:</span>
+			<br />
+			<label class="label-usertype">
+				<input type="radio" name="usertype" value="Student" checked="true"/> Student
+			</label><br />
+			<label class="label-usertype">
+				<input type="radio" name="usertype" value="Teacher" /> Teacher
+			</label><br />
+			<label class="label-usertype">
+				<input type="radio" name="usertype" value="Administrator" /> Administrator
+			</label>
+			<br />
+			<input type="submit" />
+		</form>
+	</main>
+{% endblock %}

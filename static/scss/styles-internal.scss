@@ -27,23 +27,23 @@ aside {
 		line-height: 3ex;
 		color: $color-main-dark;
 	}
-	
+
 	li {
 		width: 200px;
-	}	
-	
+	}
+
 	li:first-of-type a {
 		-webkit-border-top-left-radius: 10px;
 		-moz-border-radius-topleft: 10px;
 		border-top-left-radius: 10px;
 	}
-	
+
 	li:last-of-type a {
 		-webkit-border-bottom-left-radius: 10px;
 		-moz-border-radius-bottomleft: 10px;
 		border-bottom-left-radius: 10px;
 	}
-	
+
 	li:only-of-type a {
 		-webkit-border-top-left-radius: 10px;
 		-webkit-border-bottom-left-radius: 10px;
@@ -52,7 +52,7 @@ aside {
 		border-top-left-radius: 10px;
 		border-bottom-left-radius: 10px;
 	}
-	
+
 	a {
 		color: $color-main-dark;
 		display: block;
@@ -61,49 +61,49 @@ aside {
 		font-weight: bold;
 		text-decoration: none;
 	}
-	
+
 	a:hover {
 		color: $color-white;
 		background-color: $color-main-dark;
 	}
-	
+
+	.join-class-plus {
+		margin-left: 100px;
+	}
+
+	#current, .join-class-plus:hover {
+		margin-left: 0;
+	}
+
 	#current a, aside a:active {
 		color: $color-main-dark;
 		background-color: $color-white;
 	}
-}
 
-#current a, aside a:active {
-	color: $color-main-dark;
-	background-color: $color-white;
-}
+	#vert-navbar-classes-header {
+		display: block;
+		padding-top: 1.5ex;
+		font-size: 125%;
+		font-weight: bold;
+	}
 
-#vert-navbar-classes-header {
-	display: block;
-	padding-top: 1.5ex;
-	font-size: 125%;
-	font-weight: bold;
-}
-
-#no-classes-banner {
-	display: inline-block;
-	font-style: italic;
-}
-
-.join-class-plus {
-	padding-left: 5em;
+	#no-classes-banner {
+		display: inline-block;
+		font-style: italic;
+	}
 }
 
 /** CONTENT AREA **/
 main {
 	position: absolute;
 	left: 200px;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-	background-color: $color-white;
 	min-height: 98%;
 	width: 78%;
+	//-webkit-border-radius: 10px;
+	//-moz-border-radius: 10px;
+	border-radius: 10px;
+	background-color: $color-white;
+
 }
 
 /* Spanning Navbar */
@@ -202,11 +202,26 @@ main {
 
 .portlet-content {
 	padding: 0.4em;
-	height: 160px;
+	//height: 160px;
 }
 
 .portlet-placeholder {
 	border: 1px dotted #000000;
 	margin: 0 1em 1em 0;
 	height: 50px;
+}
+
+/* Page: Class/Manage */
+#class-info-table {
+	th {
+		text-align: left;
+		padding-bottom: 0.25em;
+		padding-right: 1em;
+	}
+}
+
+#class-student-table {
+	.table-score-editable {
+		width: 4em;
+	}
 }

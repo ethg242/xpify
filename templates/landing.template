@@ -1,0 +1,13 @@
+{% extends "externalbase.template" %}
+{# values:
+	- loginURL: url to login page (string)
+#}
+{% block content %}
+	<header>
+		<div id="logo-wrapper"><img src="/static/images/favicon-196x196.png"
+				height="196" width="196" alt="[XPify]" /></div>
+	</header>
+	<div id="login-wrapper">
+		<a href="{{ loginURL }}">Login</a>
+	</div>
+{% endblock %}

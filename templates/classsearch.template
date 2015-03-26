@@ -1,0 +1,33 @@
+{% extends "internalbase.template" %}
+{# values:
+	- user: current user (user obj)
+	- query: query term (string)
+	- results: list of classes matching query (list of class objs)
+#}
+{% set current = "Class Search" %}
+{% block title %}Class Search{{ super() }}{% endblock %}
+{% block content %}
+	<form id="search-form" action="/class/search" method="GET">
+		<input type="text" name="query" placeholder="Class name (Coming soon)" disabled="true" size="30"/> OR
+		<input type="text" name="query" value="{{ query }}" placeholder="Class code" />
+		<input type="submit" value="Search" />
+	</form>
+	{% if query %}
+		<hr />
+		{% if results %}
+			<form id="joinclass-form" action="/class/search" method="POST">
+				<ul>
+					{% for result in results %}
+						<label class="label-class">
+							<input type="radio" name="classid" value="{{ result.classid }}" {% if loop.length == 1 %}checked="checked"{% endif %} />
+							{{ result.classname }} ({{ result.classid }})
+						</label>
+					{% endfor %}
+				</ul>
+				<input type="submit" value="Go!" />
+			</form>
+		{% else %}
+			<p> No classes were found with that name or class code! </p>
+		{% endif %}
+	{% endif %}
+{% endblock %}

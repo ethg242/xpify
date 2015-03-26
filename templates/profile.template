@@ -1,0 +1,40 @@
+{% extends "internalbase.template" %}
+{# values:
+	- user: current user (user obj)
+	- tUser: target user (user obj)
+	- tSelf: true if the target is the current user (Bool)
+#}
+{% set current = "Profile" %}
+{% block title %}Profile{{ super() }}{% endblock %}
+{% block content %}
+	<button id="profile-change-picture" onclick="changePicture()">
+		<img id="profile-picture" src="/static/images/favicon-196x196.png"
+				height="196" width="196" alt="Profile Picture" />
+	</button>
+	<form id="table-form" action="/profile/" method="POST">
+		<table id="usertable">
+			<tr>
+				{% if tSelf %}
+					<td class="table-name">Full Name</td>
+					<td class="table-value-editable">
+						<input type="text" name="fullname" value="{{ user.fullname }}" />
+					</td>
+				{% else %}
+					<td class="table-name">Full Name</td>
+					<td class="table-value">{{ tUser.fullname }}</td>
+				{% endif %}
+			</tr> <tr>
+				<td class="table-name">User Type</td>
+				<td class="table-value">{{tUser.usertype}}</td>
+			</tr> <tr>
+				<td class="table-name">User ID</td>
+				<td class="table-value">{{tUser.userid}}</td>
+			</tr> <tr>
+				<td class="table-name">Classes</td>
+				<td class="table-value">{{tUser.classes}}</td>
+			</tr>
+		</table>
+		<br />
+		<input type="submit" value="Save"/>
+	</form>
+{% endblock %}

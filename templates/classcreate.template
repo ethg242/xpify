@@ -1,0 +1,15 @@
+{% extends "internalbase.template" %}
+{# values:
+	- user: current user (user obj)
+#}
+{% set current = "Class Create" %}
+{% block title %}Class Create{{ super() }}{% endblock %}
+{% block content %}
+	<form action="/class/create/" method="POST">
+		<input type="hidden" name="teacher" value="">
+		<label>
+			Class Name: <input type="text" name="classname">
+		</label>
+		<input type="submit" value="Create">
+	</form>
+{% endblock %}

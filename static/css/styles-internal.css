@@ -19,15 +19,19 @@ aside ul {
   padding: 0.5em;
   overflow: hidden;
   line-height: 3ex;
-  color: #5522a8;
+  color: #5522A8;
 }
 aside li {
   width: 200px;
 }
 aside li:first-of-type a {
+  -webkit-border-top-left-radius: 10px;
+  -moz-border-radius-topleft: 10px;
   border-top-left-radius: 10px;
 }
 aside li:last-of-type a {
+  -webkit-border-bottom-left-radius: 10px;
+  -moz-border-radius-bottomleft: 10px;
   border-bottom-left-radius: 10px;
 }
 aside li:only-of-type a {
@@ -39,7 +43,7 @@ aside li:only-of-type a {
   border-bottom-left-radius: 10px;
 }
 aside a {
-  color: #5522a8;
+  color: #5522A8;
   display: block;
   padding: 0.5em;
   padding-left: 1.5em;
@@ -47,43 +51,38 @@ aside a {
   text-decoration: none;
 }
 aside a:hover {
-  color: white;
-  background-color: #5522a8;
+  color: #FFFFFF;
+  background-color: #5522A8;
+}
+aside .join-class-plus {
+  margin-left: 100px;
+}
+aside #current, aside .join-class-plus:hover {
+  margin-left: 0;
 }
 aside #current a, aside aside a:active {
-  color: #5522a8;
-  background-color: white;
+  color: #5522A8;
+  background-color: #FFFFFF;
 }
-
-#current a, aside a:active {
-  color: #5522a8;
-  background-color: white;
-}
-
-#vert-navbar-classes-header {
+aside #vert-navbar-classes-header {
   display: block;
   padding-top: 1.5ex;
   font-size: 125%;
   font-weight: bold;
 }
-
-#no-classes-banner {
+aside #no-classes-banner {
   display: inline-block;
   font-style: italic;
-}
-
-#join-class-plus {
-  padding-left: 5em;
 }
 
 /** CONTENT AREA **/
 main {
   position: absolute;
   left: 200px;
-  border-radius: 10px;
-  background-color: white;
   min-height: 98%;
   width: 78%;
+  border-radius: 10px;
+  background-color: #FFFFFF;
 }
 
 /* Spanning Navbar */
@@ -103,19 +102,19 @@ main {
 #span-navbar a:link, #span-navbar a:visited {
   display: block;
   padding: 0.5em;
-  color: white;
-  background-color: #6633cc;
+  color: #FFFFFF;
+  background-color: #6633CC;
   font-weight: bold;
   text-align: center;
   text-decoration: none;
 }
 
 #span-navbar a:hover {
-  background-color: #5522a8;
+  background-color: #5522A8;
 }
 
 #span-navbar #current > a, #span-navbar a:active {
-  background-color: #7744e8;
+  background-color: #7744E8;
 }
 
 #span-navbar div.unimplemented {
@@ -181,11 +180,21 @@ main {
 
 .portlet-content {
   padding: 0.4em;
-  height: 160px;
 }
 
 .portlet-placeholder {
   border: 1px dotted #000000;
   margin: 0 1em 1em 0;
   height: 50px;
+}
+
+/* Page: Class/Manage */
+#class-info-table th {
+  text-align: left;
+  padding-bottom: 0.25em;
+  padding-right: 1em;
+}
+
+#class-student-table .table-score-editable {
+  width: 4em;
 }
