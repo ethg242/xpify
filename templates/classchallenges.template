@@ -1,7 +1,7 @@
 {% extends "internalclassbase.template" %}
 {# values:
 	- user: current user (user obj)
-	- classid: current class id (string)
+	- class_: current class (class obj)
 #}
 {% set currentpage = "Challenges" %}
 {% block title %}Challenges{{ super() }}{% endblock %}

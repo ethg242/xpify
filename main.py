@@ -46,7 +46,7 @@ class EntryUser(ndb.Model):
 
 	def getClasses(self):
 		usertypepl = "students"
-		if self.usertype in ["Teacher", "Administrator"]:
+		if self.usertype == "Teacher":
 			usertypepl = "teachers"
 		allClasses = ndb.gql("SELECT " + usertypepl + ", classid FROM EntryClass").fetch(200)
 		classids = []
@@ -71,7 +71,7 @@ class EntryUser(ndb.Model):
 	# 	return scores
 
 	usertype =	ndb.StringProperty(required=True,	# FINAL; Role of user
-							choices=["Student", "Teacher", "Administrator", "Undefined"] )
+							choices=["Student", "Teacher", "Undefined"] )
 	userobj =	ndb.UserProperty(required=True)	# FINAL; User object
 	userid =	ndb.StringProperty(required=True)	# FINAL, UNIQUE; Generated from user object at creation
 	fullname =	ndb.StringProperty(default="")	# Used to compute $username
@@ -155,11 +155,12 @@ class PageProfile(webapp2.RequestHandler):
 class PageClassSearch(webapp2.RequestHandler):
 	def get(self):
 		gUser = users.get_current_user()
+		user = getUserEntry(gUser).get()
 		if not gUser:
 			self.redirect("/login/")
+		elif user.usertype == "Teacher":
+			self.redirect("/class/create/")
 		else:
-			user = getUserEntry(gUser).get()
-
 			query = self.request.get("query")
 			results = None
 			if query:
@@ -195,11 +196,11 @@ class PageClassSearch(webapp2.RequestHandler):
 						self.response.out.write('You are already in that class! <br /><a href="/class/challenges?class=%s">Go to class home</a>' %(classget))
 					else:
 						user = userKey.get()
-						if user.usertype == "Student":
+						if user.usertype == "Teacher":
+							entry.teachers.append(userKey)
+						else:
 							entry.students.append(userKey)
 							entry.scores[user.userid] = 0
-						elif user.usertype in ["Teacher", "Administrator"]:
-							entry.teachers.append(userKey)
 
 						entry.put()
 
@@ -262,116 +263,15 @@ class PageClassManage(webapp2.RequestHandler): ##HERE## Convert to template
 			self.redirect("/login/")
 		else:
 			classid = self.request.get("class")
-			userClasses = user.classes
-			classesHTML = ""
-			if userClasses:
-				for classKey in userClasses:
-					class_ = classKey.get()
-					if str(class_.classid) == classid:
-						classesHTML += '<li id="current"><a href="/class/home?class=%s">%s</a></li>\n' %(
-								class_.classid, class_.classname)
-					else:
-						classesHTML += '<li><a href="/class/home?class=%s">%s</a></li>\n' %(
-								class_.classid, class_.classname)
-				classesHTML += '<li class="join-class-plus"><a href="/class/search/"><div>+</div></a></li>'
-			else:
-				if user.usertype in ["Teacher", "Administrator"]:
-					classesHTML = '''
-<div id="no-classes">
-	<span id="no-classes-banner">You have no classes!</span>
-	<li><a href="/class/create/">
-		Create one!
-	</a></li>
-</div>
-'''
-				else:
-					classesHTML = '''
-<div id="no-classes">
-	<span id="no-classes-banner">You have no classes!</span>
-	<li><a href="/class/search/">
-		Join one!
-	</a></li>
-</div>
-'''
-
+			user = getUserEntry(gUser).get()
 			class_ = ndb.gql("SELECT * FROM EntryClass WHERE classid = :1", classid).get()
 
-			subvalues = class_.to_dict()
+			template = jinja_env.get_template('classmanage.template')
+			self.response.out.write(template.render(
+					user=user,
+					class_=class_
+					))
 
-			subvalues["teachersHTML"] = ", ".join([teacherKey.get().username for teacherKey in class_.teachers])
-			#subvalues["studentsHTML"] = "".join([studentKey.get().username for studentKey in class_.students])
-
-			subvalues["studentsHTML"] = ""
-			for studentKey in class_.students:
-				student = studentKey.get()
-				score = class_.scores[student.userid] ##HERE##
-				subvalues["studentsHTML"] += '''
-					<tr><td>
-						<a href="/profile?user=%(userid)s">%(username)s</a>
-					</td><td>
-						<input type="number" class="table-score-editable" name="score%(userid)s" value="%(score)s" />
-					</td></tr>
-					''' %{"userid": student.userid, "username": student.username, "score": score}
-
-			contentHTML = '''
-<form id="table-form" action="/class/manage?class=%(classid)s" method="POST">
-	<table id="class-info-table">
-		<tr>
-			<th class="table-name">Class Name</td>
-			<td class="table-value-editable">
-				<input type="text" name="classname" value="%(classname)s" />
-			</td>
-		</tr> <tr>
-			<th class="table-name">Class ID</td>
-			<td class="table-value">%(classid)s</td>
-		</tr> <tr>
-			<th class="table-name">Teachers</td>
-			<td class="table-value">%(teachersHTML)s</td>
-		</tr>
-	</table>
-	<table id="class-student-table">
-		<tr>
-			<th colspan="2">Students</th>
-		</tr>
-		%(studentsHTML)s
-	</table>
-	<br />
-	<input type="submit" value="Save"/>
-</form>
-''' %(subvalues)
-
-			self.response.out.write(composePage('''
-<body>
-	<aside>
-		<div id="logo-wrapper"><img src="/static/images/favicon-96x96.png"
-				height="96" width="96" alt="[XPify]" /></div>
-		<nav id="vert-navbar">
-			<ul id="vert-navbar-main">
-				<li><a href="/my/home/">Home</a></li>
-				<li><a href="/profile/">Profile</a></li>
-				<li><a href="/logout/">Log out</a></li>
-			</ul>
-			<span id="vert-navbar-classes-header">Classes</span>
-			<ul id="vert-navbar-classes-list">
-				%(classes)s
-			</ul>
-		</nav>
-	</aside>
-	<main>
-		<nav id="span-navbar">
-			<ul>
-				<li><a href="/class/challenges?=%(classid)s">Challenges</a></li>
-				<li><a href="/class/leaderboards?=%(classid)s">Leaderboards</a></li>
-				<li><div class="unimplemented">Coming Soon</div></li>
-				<li id="current"><a href="/class/manage/?class=%(classid)s">Manage</a></li>
-			</ul>
-		</nav>
-		<div id="content">
-			%(content)s
-		</div>
-	</main>
-</body>
-''' %{"classes":classesHTML, "classid":classid, "content":contentHTML} ))
 
 
 class PagePostlogin(webapp2.RequestHandler):
@@ -462,10 +362,8 @@ class PageDev(webapp2.RequestHandler):
 ### APPLICATION ###
 
 jinja_env = jinja2.Environment(
-		loader=jinja2.FileSystemLoader("templates")
-		#extensions=['jinja2.ext.autoescape'],
-		#line_statement_prefix="#",
-		#line_comment_prefix="##"
+		loader=jinja2.FileSystemLoader("templates"),
+		extensions=['jinja2.ext.autoescape', 'jinja2.ext.do']
 		)
 
 app = webapp2.WSGIApplication([

@@ -34,7 +34,8 @@
 				<td class="table-value">{{tUser.classes}}</td>
 			</tr>
 		</table>
-		<br />
-		<input type="submit" value="Save"/>
+		{% if tSelf %}
+			<input type="submit" value="Save"/>
+		{% endif %}
 	</form>
 {% endblock %}

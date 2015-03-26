@@ -19,7 +19,9 @@
 		{% endfor %}
 		<li><div class="unimplemented">Coming Soon</div></li>
 		{% if user.usertype == "Teacher" %}
-			<li><a href="/class/manage/?class={{ classid }}">Manage</a></li>
+			<li {% if currentpage=="Manage" %}id="current"{% endif %}>
+				<a href="/class/manage/?class={{ classid }}">Manage</a>
+			</li>
 		{% endif %}
 	</ul>
 </nav>

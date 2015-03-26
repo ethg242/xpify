@@ -1,0 +1,47 @@
+{% extends "internalclassbase.template" %}
+{# values:
+	- user: current user (user obj)
+	- class_: current class (class obj)
+#}
+{% set currentpage = "Manage" %}
+{% block title %}Manage{{ super() }}{% endblock %}
+{% block content %}
+	<form id="table-form" action="/class/manage?class={{ classid }}" method="POST">
+		<table id="class-info-table">
+			<tr>
+				<th class="table-name">Class Name</td>
+				<td class="table-value-editable">
+					<input type="text" name="classname" value="{{ class.classname }}" />
+				</td>
+			</tr> <tr>
+				<th class="table-name">Class ID</td>
+				<td class="table-value">{{ classid }}</td>
+			</tr> <tr>
+				<th class="table-name">Teachers</td>
+				<td class="table-value">
+					{% set teachers = [] %}
+					{% for teacherKey in class.teachers %}
+						{% do teachers.append(teacherKey.get().username) %}
+					{% endfor %}
+					{{ teachers |join(", ") }}
+				</td>
+			</tr>
+		</table>
+		<table id="class-student-table">
+			<tr>
+				<th colspan="2">Students</th>
+			</tr>
+			{% for studentKey in class.students %}
+				{% set student = studentKey.get() %}
+				<tr><td>
+					<a href="/profile?user={{ student.userid }}">{{ student.username }}</a>
+				</td><td>
+					<input type="number" class="table-score-editable"
+							name="{{ student.userid }}" value="{{ class.scores[student.userid] }}" />
+				</td></tr>
+			{% endfor %}
+		</table>
+		<br />
+		<input type="submit" value="Save"/>
+	</form>
+{% endblock %}
