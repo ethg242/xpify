@@ -1,9 +1,11 @@
 body {
-  font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif; }
+  font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+}
 
 /* Logo & Header */
 #logo-wrapper {
-  float: left; }
+  float: left;
+}
 
 #login-wrapper > a:link, #login-wrapper > a:visited {
   float: right;
@@ -14,18 +16,22 @@ body {
   background-color: #6633CC;
   font-weight: bold;
   text-align: center;
-  text-decoration: none; }
+  text-decoration: none;
+}
 
 #login-wrapper > a:hover, #login-wrapper > a:active {
-  background-color: #5522A8; }
+  background-color: #5522A8;
+}
 
 /* Login Page */
 main {
   margin: 10%;
   padding: 5%;
-  border: 2px solid black; }
+  border: 2px solid black;
+}
 
 #user-form {
-  line-height: 3ex; }
+  line-height: 3ex;
+}
 
-/*# sourceMappingURL=styles1.css.map */
+/*# sourceMappingURL=styles-external.css.map */

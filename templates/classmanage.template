@@ -5,6 +5,16 @@
 #}
 {% set currentpage = "Manage" %}
 {% block title %}Manage{{ super() }}{% endblock %}
+{% block head %}
+	<script>
+	$(function() {
+		$("#class-student-table").find(".addscore-show").click(function() {
+			$(this).siblings(".addscore-hider").toggle("slide");
+		});
+		$(".addscore-hider").hide()
+	});
+	</script>
+{% endblock %}
 {% block content %}
 	<form id="table-form" action="/class/manage?class={{ classid }}" method="POST">
 		<table id="class-info-table">
@@ -29,15 +39,20 @@
 		</table>
 		<table id="class-student-table">
 			<tr>
-				<th colspan="2">Students</th>
+				<th>Students</th>
 			</tr>
 			{% for studentKey in class.students %}
 				{% set student = studentKey.get() %}
 				<tr><td>
 					<a href="/profile?user={{ student.userid }}">{{ student.username }}</a>
 				</td><td>
-					<input type="number" class="table-score-editable"
-							name="{{ student.userid }}" value="{{ class.scores[student.userid] }}" />
+					<span class="score">{{ class.scores[student.userid] }}</span>
+				</td><td>
+					<button type="button" class="addscore-show">+</button>
+					<span class="addscore-hider">
+						<input type="number" class="addscore"
+								name="addscore-s{{ student.userid }}" value="0" />
+					</span>
 				</td></tr>
 			{% endfor %}
 		</table>

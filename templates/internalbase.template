@@ -32,9 +32,10 @@
 		<meta name="msapplication-square310x310logo" content="/static/images/mstile-310x310.png" />
 		<meta name="msapplication-wide310x150logo" content="/static/images/mstile-310x150.png" />
 
-		<script type="text/javascript" src="/static/js/jquery-1.10.2.min.js"></script>
-		<script type="text/javascript" src="/static/js/jquery-ui-1.10.4.custom.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="/static/js/portlets.js"></script>
+		{% block head %}{% endblock %}
 	</head>
 	<body>
 		<aside>

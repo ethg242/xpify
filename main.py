@@ -166,7 +166,7 @@ class PageClassSearch(webapp2.RequestHandler):
 			if query:
 				classid = None
 				try:
-					classid = query # TODO: Determine purpose of try
+					classid = query #TODO: differentiate between name search and id search
 				except ValueError:
 					results = ndb.gql("SELECT * FROM EntryClass WHERE classname = :1", classid).fetch(200)
 				else:
@@ -255,24 +255,55 @@ class PageClassChallenges(webapp2.RequestHandler):
 					class_=class_
 					))
 
-class PageClassManage(webapp2.RequestHandler): ##HERE## Convert to template
+class PageClassManage(webapp2.RequestHandler):
 	def get(self):
 		gUser = users.get_current_user()
 		user = getUserEntry(gUser).get()
 		if not (gUser and user.usertype == "Teacher"):
 			self.redirect("/login/")
 		else:
-			classid = self.request.get("class")
 			user = getUserEntry(gUser).get()
+			classid = self.request.get("class")
 			class_ = ndb.gql("SELECT * FROM EntryClass WHERE classid = :1", classid).get()
 
-			template = jinja_env.get_template('classmanage.template')
+			template = jinja_env.get_template('classmanage.template') #TODO: Numbers right justify
 			self.response.out.write(template.render(
 					user=user,
 					class_=class_
 					))
 
+	def post(self):
+		gUser = users.get_current_user()
+		user = getUserEntry(gUser).get()
+		if not (gUser and user.usertype == "Teacher"):
+			self.redirect("/login/")
+		else:
+			classid = self.request.get("class")
+			class_ = ndb.gql("SELECT * FROM EntryClass WHERE classid = :1", classid).get()
 
+			# If classname changed, update it
+			newclassname = self.request.get("classname")
+			if newclassname != class_.classname:
+				put = True
+				class_.classname = newclassname
+
+			# Update all the scores which changed
+			for (name, value) in self.request.params.items():
+				if name.startswith("addscore-s") and value != 0:
+					studentid = name.rpartition("addscore-s")[-1]
+					try:
+						score = int(value)
+					except ValueError:
+						pass
+					else:
+						put = True
+						class_.scores[studentid] += score
+
+			# Only put if flagged to do so.
+			if put:
+				class_.put()
+
+			self.redirect("/d?t=/class/manage?class=" + classid)
 
 class PagePostlogin(webapp2.RequestHandler):
 	def get(self):
@@ -282,7 +313,7 @@ class PagePostlogin(webapp2.RequestHandler):
 				gUser.user_id()).get()
 		if not tUser:
 			# Show User Creation
-			template = jinja_env.get_template('postlogin.template') ##TODO: User Creation includes optional Fullname entry
+			template = jinja_env.get_template('postlogin.template') #TODO: User Creation includes optional Fullname entry
 			self.response.out.write(template.render())
 		else:
 			self.redirect(continueURL)
@@ -302,7 +333,7 @@ class PagePostlogin(webapp2.RequestHandler):
 			self.redirect("/postlogin/")
 
 		# Continue
-		self.redirect("/d/my/home/")
+		self.redirect("/d?t=/my/home/")
 
 ### REDIRECTS ###
 
@@ -334,14 +365,11 @@ class RedirectClassSearch(RedirectRestrictedPage):
 class RedirectClassChallenges(RedirectRestrictedPage):
 	target = "/class/challenges/"
 
-class RedirectDelayMyHome(webapp2.RequestHandler):
+class RedirectDelay(webapp2.RequestHandler):
 	def get(self):
-		gUser = users.get_current_user()
-		if gUser:
-			time.sleep(1)
-			self.redirect("/my/home/")
-		else:
-			self.redirect(users.create_login_url("/postlogin/?continue=/my/home"))
+		target = cgi.escape(self.request.get("t", "/"))
+		time.sleep(1)
+		self.redirect(target)
 
 
 #:DEV:
@@ -373,7 +401,6 @@ app = webapp2.WSGIApplication([
 		("^/postlogin/?$", PagePostlogin),
 		("^/my/home/?$", PageMyHome),
 			("^/my/?$|^/home/?$", RedirectMyHome),
-			("^/d/my/home/?$", RedirectDelayMyHome),
 		("^/profile/?$", PageProfile),
 		("^/class/challenges/?$", PageClassChallenges),
 			("^/class/?$", RedirectClassChallenges),
@@ -381,6 +408,7 @@ app = webapp2.WSGIApplication([
 		("^/class/manage/?$", PageClassManage),
 		("^/class/search/?$", PageClassSearch),
 			("^/class/join/?$", RedirectClassSearch),
+		("^/d/?$", RedirectDelay),
 		("^/dev/?$", PageDev)
 		], debug=True
 		)

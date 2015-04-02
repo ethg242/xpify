@@ -195,6 +195,17 @@ main {
   padding-right: 1em;
 }
 
-#class-student-table .table-score-editable {
-  width: 4em;
+#class-student-table .addscore-show {
+  float: left;
 }
+#class-student-table .addscore-hider {
+  float: left;
+  margin-left: 0.5em;
+}
+#class-student-table .addscore {
+  width: 3em;
+  font-size: 100%;
+  text-align: right;
+}
+
+/*# sourceMappingURL=styles-internal.css.map */

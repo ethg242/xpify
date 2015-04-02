@@ -221,7 +221,16 @@ main {
 }
 
 #class-student-table {
-	.table-score-editable {
-		width: 4em;
+	.addscore-show {
+		float: left;
+	}
+	.addscore-hider {
+		float: left;
+		margin-left: 0.5em;
+	}
+	.addscore {
+		width: 3em;
+		font-size: 100%;
+		text-align: right;
 	}
 }

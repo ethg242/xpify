@@ -14,7 +14,7 @@
 				('Leaderboards', '/class/leaderboards')
 				] %}
 			<li {% if currentpage==label %}id="current"{% endif %} >
-				<a href="{{ href ~ '?class={{ classid }}'}}">{{ label }}</a>
+				<a href="{{ href ~ '?class=' ~ classid}}">{{ label }}</a>
 			</li>
 		{% endfor %}
 		<li><div class="unimplemented">Coming Soon</div></li>
